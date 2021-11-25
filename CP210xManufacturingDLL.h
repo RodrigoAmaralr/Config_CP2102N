@@ -36,7 +36,7 @@
 #include	<string.h>
 #include	<stdio.h>
 #include	<stdint.h>	// For C99 fixed sized types
-#include	<stdbool.h>	// For C99 _Bool
+//#include	<stdbool.h>	// For C99 _Bool
 
 #include	"silabs_defs.h"
 #include	"silabs_sal.h"
@@ -462,10 +462,12 @@ extern "C" {
 ///	@retval	#CP210x_INVALID_PARAMETER -- lpdwNumDevices is an unexpected value
 _Check_return_
 _Ret_range_(CP210x_SUCCESS, CP210x_DEVICE_NOT_FOUND)
-_Success_(return == CP210x_SUCCESS)
+//_Success_(return == CP210x_SUCCESS)
+_Success_(CP210x_SUCCESS)
 CP210xDLL_API CP210x_STATUS WINAPI
 CP210x_GetNumDevices(
-	_Out_writes_bytes_(sizeof(uint32_t)) _Pre_defensive_ uint32_t *lpdwNumDevices
+	//_Out_writes_bytes_(sizeof(uint32_t)) _Pre_defensive_ uint32_t *lpdwNumDevices
+    _Out_writes_bytes_(sizeof(DWORD)) _Pre_defensive_ LPDWORD lpdwNumDevices
 	);
 
 /// @brief Gets a "Product String"
@@ -502,9 +504,9 @@ _Ret_range_(CP210x_SUCCESS, CP210x_DEVICE_NOT_FOUND)
 _Success_(return == CP210x_SUCCESS)
 CP210xDLL_API CP210x_STATUS WINAPI
 CP210x_GetProductString(
-	_In_ _Pre_defensive_ const uint32_t dwDeviceIndex,
+	_In_ _Pre_defensive_ const DWORD dwDeviceIndex,
 	void * lpvDeviceString,
-	_In_ _Pre_defensive_ const uint32_t dwFlags
+	_In_ _Pre_defensive_ const DWORD dwFlags
 	);
 
 /// @brief Opens a handle to the device
