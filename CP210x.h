@@ -18,3 +18,4 @@ void GetProductString(DWORD dwDeviceIndex, CP210X* cp);
 void Open(uint32_t DeviceIndex, PHANDLE pcyHandle);
 void Close(PHANDLE cyHandle);
 void ExitProgramWithFailure();
+void GetConfigCP210x(DWORD dwDeviceIndex, CP210X* cp);

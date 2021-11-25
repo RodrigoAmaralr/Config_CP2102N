@@ -53,21 +53,19 @@ DWORD GetNumDevices(){
     }
 }
 
-void GetProductString(DWORD dwDeviceIndex, CP210X* cp){
-    for(int i = 0; i < dwDeviceIndex; i++){
-        cp[i].DeviceIndex = dwDeviceIndex;
-        status = CP210x_GetProductString(i, &cp[i].ProductString_SERIAL_NUMBER, CP210x_RETURN_SERIAL_NUMBER);
-        if (status != CP210x_SUCCESS){
-            PrintStatusReturnCodesError(status);
-        }
-        status = CP210x_GetProductString(i, &cp[i].ProductString_DESCRIPTION, CP210x_RETURN_DESCRIPTION);
-        if (status != CP210x_SUCCESS){
-            PrintStatusReturnCodesError(status);
-        }
-        status = CP210x_GetProductString(i, &cp[i].ProductString_FULL_PATH, CP210x_RETURN_FULL_PATH);
-        if (status != CP210x_SUCCESS){
-            PrintStatusReturnCodesError(status);
-        }
+void GetProductString(DWORD Index, CP210X* cp){
+    cp[Index].DeviceIndex = Index;
+    status = CP210x_GetProductString(Index, &cp[Index].ProductString_SERIAL_NUMBER, CP210x_RETURN_SERIAL_NUMBER);
+    if (status != CP210x_SUCCESS){
+        PrintStatusReturnCodesError(status);
+    }
+    status = CP210x_GetProductString(Index, &cp[Index].ProductString_DESCRIPTION, CP210x_RETURN_DESCRIPTION);
+    if (status != CP210x_SUCCESS){
+        PrintStatusReturnCodesError(status);
+    }
+    status = CP210x_GetProductString(Index, &cp[Index].ProductString_FULL_PATH, CP210x_RETURN_FULL_PATH);
+    if (status != CP210x_SUCCESS){
+        PrintStatusReturnCodesError(status);
     }
 }
 
@@ -82,5 +80,15 @@ void Close(PHANDLE cyHandle){
     status = CP210x_Close(cyHandle);
     if (status != CP210x_SUCCESS){
         PrintStatusReturnCodesError(status);
+    }
+}
+
+void GetConfigCP210x(DWORD dwDeviceIndex, CP210X* cp){
+    for(int i = 0; i < dwDeviceIndex; i++){
+        Open(i, &cp[i].handle);
+        GetProductString(i, cp);
+
+        
+        Close(cp[i].handle);
     }
 }
