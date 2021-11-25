@@ -10,18 +10,11 @@ gcc .\main.c CP210x.c CP210xManufacturing.lib -o config_CP210x.exe
 int main(){
     DWORD dwNumDevices = GetNumDevices();  
     printf("Found %d devices\n", dwNumDevices);
-    
-    CP210x_DEVICE_STRING str;
+    CP210X* cp = malloc(sizeof(CP210X) * dwNumDevices);
+    GetProductString(dwNumDevices, cp);
     for(int i = 0; i < dwNumDevices; i++){
-        GetProductString(i, &str, CP210x_RETURN_SERIAL_NUMBER);
-        printf("SERIAL_NUMBER: %s\t", str);
-
-        GetProductString(i, &str, CP210x_RETURN_DESCRIPTION);
-        printf("DESCRIPTION: %s\t", str);
-
-        GetProductString(i, &str, CP210x_RETURN_FULL_PATH);
-        printf("FULL_PATH: %s\n", str);
+        printf("SERIAL_NUMBER: %s\t", cp[i].ProductString_SERIAL_NUMBER);
+        printf("DESCRIPTION: %s\t", cp[i].ProductString_DESCRIPTION);
+        printf("FULL_PATH: %s\n", cp[i].ProductString_FULL_PATH);
     }
-
-    
 }

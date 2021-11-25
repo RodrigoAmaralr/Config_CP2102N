@@ -35,6 +35,12 @@ void PrintStatusReturnCodesError(CP210x_STATUS Code){
         printf("Unknown error");
         break;
     }
+    ExitProgramWithFailure();
+}
+
+void ExitProgramWithFailure(){
+    printf("Program terminated due to error in program execution\n");
+    exit(EXIT_FAILURE);
 }
 
 DWORD GetNumDevices(){
@@ -44,15 +50,24 @@ DWORD GetNumDevices(){
         return dwNumDevices;
     }else{
         PrintStatusReturnCodesError(status);
-        ExitProgramWithFailure();
     }
 }
 
-void GetProductString(DWORD dwDeviceIndex, CP210x_DEVICE_STRING* str, DWORD dwFlags){
-    status = CP210x_GetProductString(dwDeviceIndex, str, dwFlags);
-    if (status != CP210x_SUCCESS){
-        PrintStatusReturnCodesError(status);
-        ExitProgramWithFailure();
+void GetProductString(DWORD dwDeviceIndex, CP210X* cp){
+    for(int i = 0; i < dwDeviceIndex; i++){
+        cp[i].DeviceIndex = dwDeviceIndex;
+        status = CP210x_GetProductString(i, &cp[i].ProductString_SERIAL_NUMBER, CP210x_RETURN_SERIAL_NUMBER);
+        if (status != CP210x_SUCCESS){
+            PrintStatusReturnCodesError(status);
+        }
+        status = CP210x_GetProductString(i, &cp[i].ProductString_DESCRIPTION, CP210x_RETURN_DESCRIPTION);
+        if (status != CP210x_SUCCESS){
+            PrintStatusReturnCodesError(status);
+        }
+        status = CP210x_GetProductString(i, &cp[i].ProductString_FULL_PATH, CP210x_RETURN_FULL_PATH);
+        if (status != CP210x_SUCCESS){
+            PrintStatusReturnCodesError(status);
+        }
     }
 }
 
@@ -60,7 +75,6 @@ void Open(uint32_t DeviceIndex, PHANDLE pcyHandle){
     status = CP210x_Open(DeviceIndex, pcyHandle);
     if (status != CP210x_SUCCESS){
         PrintStatusReturnCodesError(status);
-        ExitProgramWithFailure();
     }
 }
 
@@ -68,10 +82,5 @@ void Close(PHANDLE cyHandle){
     status = CP210x_Close(cyHandle);
     if (status != CP210x_SUCCESS){
         PrintStatusReturnCodesError(status);
-        ExitProgramWithFailure();
     }
-}
-void ExitProgramWithFailure(){
-    printf("Program terminated due to error in program execution\n");
-    exit(EXIT_FAILURE);
 }
