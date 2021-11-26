@@ -14,21 +14,19 @@ int main(){
     printf("Found %d devices\n", dwNumDevices);
     cp = malloc(sizeof(CP210X) * dwNumDevices);
         
-    printf("DeviceIndex: %d %d\n", cp->DeviceIndex, &cp->DeviceIndex);
-    //printf("DeviceIndex: %d\t", cp.DeviceIndex);
 
-    GetAllCP210xConfig(cp);
+    GetAllCP210xConfig(dwNumDevices, cp);
 
-    printf("DeviceIndex: %d %d\n", cp->DeviceIndex, &cp->DeviceIndex);
-    //printf("DeviceIndex: %d\t", cp.DeviceIndex);
-    // printf("SERIAL_NUMBER: %s\t", cp.ProductString_SERIAL_NUMBER);
-    // printf("DESCRIPTION: %s\t", cp.ProductString_DESCRIPTION);
-    // printf("FULL_PATH: %s\n", cp.ProductString_FULL_PATH);
+    for(int i = 0; i < dwNumDevices; i++){
+        printf("\n********** DEVICE %d**********\n", dwNumDevices);
+        printf("DeviceIndex: %d\t",     cp[i].DeviceIndex);
+        printf("SERIAL_NUMBER: %s\t",   cp[i].ProductString_SERIAL_NUMBER);
+        printf("DESCRIPTION: %s\t",     cp[i].ProductString_DESCRIPTION);
+        printf("FULL_PATH: %s\n",       cp[i].ProductString_FULL_PATH);
 
-    // for(int i = 0; i < dwNumDevices; i++){
-    //     printf("SERIAL_NUMBER: %s\t", cp[i].ProductString_SERIAL_NUMBER);
-    //     printf("DESCRIPTION: %s\t", cp[i].ProductString_DESCRIPTION);
-    //     printf("FULL_PATH: %s\n", cp[i].ProductString_FULL_PATH);
-    // }
-    //free(&cp);
+        printf("DeviceManufacturerString: %s\n",    cp[i].Deviceproductstring);
+        printf("Deviceserialstring: %s\n",          cp[i].Deviceserialstring);
+
+    }
+    free(cp);
 }

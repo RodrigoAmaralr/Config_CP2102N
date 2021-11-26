@@ -527,7 +527,7 @@ _Ret_range_(CP210x_SUCCESS, CP210x_DEVICE_NOT_FOUND)
 _Success_(return == CP210x_SUCCESS)
 CP210xDLL_API CP210x_STATUS WINAPI
 CP210x_Open(
-	_In_ _Pre_defensive_ const uint32_t DeviceIndex,
+	_In_ _Pre_defensive_ const DWORD DeviceIndex,
 	_Out_writes_bytes_(sizeof(HANDLE)) _Pre_defensive_ PHANDLE pcyHandle
 	); 
 
@@ -990,12 +990,14 @@ CP210x_GetDevicePid(
 ///	@retval	#TBD -- tbd
 _Check_return_
 _Ret_range_(CP210x_SUCCESS, CP210x_DEVICE_NOT_FOUND)
-_Success_(return == CP210x_SUCCESS)
+_Success_(CP210x_SUCCESS)
 CP210xDLL_API CP210x_STATUS WINAPI
 CP210x_GetDeviceManufacturerString(
 	_In_ _Pre_defensive_ const HANDLE cyHandle,
-	void *	lpManufacturer,
-	uint8_t	*lpbLength,
+	//void *	lpManufacturer,
+	LPVOID	lpvManufacturer,
+	//uint8_t	*lpbLength,
+	LPBYTE	bLength,
 	// _In_ const BOOL	bConvertToASCII = TRUE
 	_In_ const BOOL	bConvertToASCII
 	);
