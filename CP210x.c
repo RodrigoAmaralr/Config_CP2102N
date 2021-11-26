@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "CP210x.h"
 
 void PrintStatusReturnCodesError(CP210x_STATUS Code){
@@ -53,23 +54,23 @@ DWORD GetNumDevices(){
     }
 }
 
-void GetProductString(DWORD Index, CP210X* cp){
-    cp[Index].DeviceIndex = Index;
-    status = CP210x_GetProductString(Index, &cp[Index].ProductString_SERIAL_NUMBER, CP210x_RETURN_SERIAL_NUMBER);
-    if (status != CP210x_SUCCESS){
-        PrintStatusReturnCodesError(status);
-    }
-    status = CP210x_GetProductString(Index, &cp[Index].ProductString_DESCRIPTION, CP210x_RETURN_DESCRIPTION);
-    if (status != CP210x_SUCCESS){
-        PrintStatusReturnCodesError(status);
-    }
-    status = CP210x_GetProductString(Index, &cp[Index].ProductString_FULL_PATH, CP210x_RETURN_FULL_PATH);
-    if (status != CP210x_SUCCESS){
-        PrintStatusReturnCodesError(status);
-    }
+void GetProductString(DWORD DeviceIndex, CP210X* cp){
+    // cp[DeviceIndex].DeviceIndex = DeviceIndex;
+    // status = CP210x_GetProductString(DeviceIndex, &cp[DeviceIndex].ProductString_SERIAL_NUMBER, CP210x_RETURN_SERIAL_NUMBER);
+    // if (status != CP210x_SUCCESS){
+    //     PrintStatusReturnCodesError(status);
+    // }
+    // status = CP210x_GetProductString(DeviceIndex, &cp[DeviceIndex].ProductString_DESCRIPTION, CP210x_RETURN_DESCRIPTION);
+    // if (status != CP210x_SUCCESS){
+    //     PrintStatusReturnCodesError(status);
+    // }
+    // status = CP210x_GetProductString(DeviceIndex, &cp[DeviceIndex].ProductString_FULL_PATH, CP210x_RETURN_FULL_PATH);
+    // if (status != CP210x_SUCCESS){
+    //     PrintStatusReturnCodesError(status);
+    // }
 }
 
-void Open(uint32_t DeviceIndex, PHANDLE pcyHandle){
+void Open(DWORD DeviceIndex, PHANDLE pcyHandle){
     status = CP210x_Open(DeviceIndex, pcyHandle);
     if (status != CP210x_SUCCESS){
         PrintStatusReturnCodesError(status);
@@ -83,12 +84,27 @@ void Close(PHANDLE cyHandle){
     }
 }
 
-void GetConfigCP210x(DWORD dwDeviceIndex, CP210X* cp){
-    for(int i = 0; i < dwDeviceIndex; i++){
-        Open(i, &cp[i].handle);
-        GetProductString(i, cp);
+void GetDeviceManufacturerString(DWORD DeviceIndex, CP210X* cp){
 
-        
-        Close(cp[i].handle);
-    }
+}
+
+void GetAllCP210xConfig(CP210X* cp){
+    
+    //cp = malloc(sizeof(CP210X));
+
+    //GetProductString(dwNumDevices, cp);
+
+    cp->DeviceIndex = 10;
+    //cp->DeviceIndex = 11;
+
+    printf("DeviceIndex: %d %d\n", cp->DeviceIndex, &cp->DeviceIndex);
+    //printf("DeviceIndex: %d\t", cp->DeviceIndex);
+
+    
+    // for(int i = 0; i < dwNumDevices; i++){
+    //     Open(i, &cp[i].handle);
+    //     GetProductString(i, &cp[i]);
+    //     Close(cp[i].handle);
+    // }
+    
 }

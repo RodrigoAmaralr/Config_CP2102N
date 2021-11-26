@@ -14,8 +14,8 @@ CP210x_STATUS status;
 
 void PrintStatusReturnCodesError(CP210x_STATUS Code);
 DWORD GetNumDevices();
-void GetProductString(DWORD dwDeviceIndex, CP210X* cp);
-void Open(uint32_t DeviceIndex, PHANDLE pcyHandle);
+void GetProductString(DWORD DeviceIndex, CP210X* cp);
+void Open(DWORD DeviceIndex, PHANDLE pcyHandle);
 void Close(PHANDLE cyHandle);
 void ExitProgramWithFailure();
-void GetConfigCP210x(DWORD dwDeviceIndex, CP210X* cp);
+void GetAllCP210xConfig(CP210X* cp);
